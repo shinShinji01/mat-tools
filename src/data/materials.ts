@@ -8,8 +8,7 @@ export interface FilterMaterial {
 
 export interface FilterMaterialUnit extends FilterMaterial {
   defaultAmount: number;
-  // !TODO: remove null and replace with actual numbers
-  dimensions: { w: number | null; h: number | null };
+  dimensions: { w: number; h: number };
   size: string;
 }
 
@@ -51,7 +50,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
   {
     label: 'Сетка плетеная (М)',
     defaultAmount: 6,
-    dimensions: { w: null, h: null },
+    dimensions: { w: 48, h: 20 },
     type: 'woven_mesh',
     size: 'small',
     id: 'woven_mesh_s',
@@ -59,7 +58,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
   {
     label: 'Сетка плетеная (Б)',
     defaultAmount: 3,
-    dimensions: { w: null, h: null },
+    dimensions: { w: 150, h: 20 },
     type: 'woven_mesh',
     size: 'large',
     id: 'woven_mesh_l',
@@ -67,7 +66,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
   {
     label: 'Сетка сварная (М)',
     defaultAmount: 6,
-    dimensions: { w: null, h: null },
+    dimensions: { w: 34, h: 50 },
     type: 'welded_mesh',
     size: 'small',
     id: 'welded_mesh_s',
@@ -75,7 +74,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
   {
     label: 'Сетка сварная (Б)',
     defaultAmount: 3,
-    dimensions: { w: null, h: null },
+    dimensions: { w: 54, h: 50 },
     type: 'welded_mesh',
     size: 'large',
     id: 'welded_mesh_l',
