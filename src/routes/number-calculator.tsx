@@ -15,6 +15,15 @@ interface KeyNumObject {
   [key: string]: number;
 }
 
+// Generate options for material type select menu
+const selectOptions = materialsTypes.map((mat) => {
+  return (
+    <option key={mat.id} value={mat.id}>
+      {mat.label}
+    </option>
+  );
+});
+
 const generateInputsObject = (
   materialType: string,
   materialsData: FilterMaterialUnit[]
@@ -54,40 +63,20 @@ const calculateUnitArea = (unitData: FilterMaterialUnit) => {
 };
 
 // Render calculation data to the output container
-const renderOutput = (output: KeyNumObject) => {
+const renderOutput = (output: number) => {
   if (!output) return;
-  const outputNodes: React.ReactNode[] = [];
-
-  for (const mat in output) {
-    const node = (
-      <li key={mat}>
-        {mat}: {output[mat]}
-      </li>
-    );
-    outputNodes.push(node);
-  }
-
-  return outputNodes;
+  return <p>{output}</p>;
 };
 
 const NumberCalculator = () => {
-  const [matType, setMatType] = useState('');
+  const [matType, setMatType] = useState(materialsTypes[0].id);
   const [inputsData, setInputsData] = useState<InputsData[]>([]);
-  const [output, setOutput] = useState<KeyNumObject | null>(null);
+  const [output, setOutput] = useState<number | null>(null);
 
   useEffect(
     () => setInputsData(generateInputsObject(matType, filterMaterials)),
     [matType]
   );
-
-  // Generate options for material type select menu
-  const selectOptions = materialsTypes.map((mat) => {
-    return (
-      <option key={mat.id} value={mat.id}>
-        {mat.label}
-      </option>
-    );
-  });
 
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setMatType(e.target.value);
@@ -97,6 +86,9 @@ const NumberCalculator = () => {
    * @param data input values
    */
   const calculate = (data: InputsState) => {
+    const { initial_number: initialNumber } = data;
+    if (!initialNumber) return;
+
     // Selected material data
     const defaultUnitsData = getDefaultMaterialData(matType, filterMaterials);
 
@@ -107,24 +99,24 @@ const NumberCalculator = () => {
     });
 
     // Area covered by stock
-    const areaCoveredByStock: KeyNumObject = {};
-    for (const mat in areas) areaCoveredByStock[mat] = areas[mat] * +data[mat];
+    let areaCoveredByStock = 0;
+    for (const mat in areas) areaCoveredByStock += areas[mat] * +data[mat];
 
     // Area covered by single set
-    const areaCoveredBySet: KeyNumObject = {};
+    let areaCoveredBySet = 0;
     const defaultAmounts: KeyNumObject = {};
     defaultUnitsData.forEach(
       (mat) => (defaultAmounts[mat.id] = mat.defaultAmount)
     );
     for (const mat in areas)
-      areaCoveredBySet[mat] = areas[mat] * defaultAmounts[mat];
+      areaCoveredBySet += areas[mat] * defaultAmounts[mat];
 
     // How many sets covered
-    const results: KeyNumObject = {};
-    for (const mat in areaCoveredBySet)
-      results[mat] = areaCoveredByStock[mat] / areaCoveredBySet[mat];
+    const coveredSets = areaCoveredByStock / areaCoveredBySet;
 
-    setOutput(results);
+    // Next number
+    const nextNumber = Math.floor(coveredSets + +initialNumber);
+    setOutput(nextNumber);
   };
 
   return (

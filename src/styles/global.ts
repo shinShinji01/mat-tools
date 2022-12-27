@@ -13,4 +13,8 @@ export const globalStyles = css`
     font-family: 'Roboto', sans-serif;
     font-size: 62.5%;
   }
+
+  body {
+    font-size: 1.6rem;
+  }
 `;
