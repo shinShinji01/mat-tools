@@ -1,9 +1,10 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { useState } from 'react';
 import { InputsState } from '../data/types';
+import { FilterMaterialUnit } from '../data/materials';
 import { SecondaryHeader } from '../components/header';
 import Inputs from '../components/calculator/inputs';
 import Select from '../components/UI/select';
-import { materialsTypes } from '../data/materials';
+import { filterMaterials, materialsTypes } from '../data/materials';
 
 const inputsData = [
   {
@@ -19,6 +20,29 @@ const inputsData = [
     id: 'units_stock_l',
   },
 ];
+
+/**
+ * Find default data of materials of the selected type
+ * @param materialType currently selected material type
+ * @param materialsData array of material data
+ * @returns array of the default data of materials of selected type
+ */
+const getDefaultMaterialData = (
+  materialType: string,
+  materialsData: FilterMaterialUnit[]
+) => {
+  // Find all materials of the same type
+  const materials = materialsData.filter((mat) => mat.type === materialType);
+
+  return materials;
+};
+
+// Calculate the area of single unit
+const calculateUnitArea = (unitData: FilterMaterialUnit) => {
+  const { w, h } = unitData.dimensions;
+  const area = w * h;
+  return area;
+};
 
 const NumberCalculator = () => {
   const [matType, setMatType] = useState('');
@@ -40,7 +64,24 @@ const NumberCalculator = () => {
    * @param data input values
    */
   const calculate = (data: InputsState) => {
-    //
+    const {
+      initial_number: initialNumber,
+      units_stock_s: unitsStockS,
+      units_stock_l: unitsStockL,
+    } = data;
+    console.log(data);
+
+    // Selected material data
+    const defaultUnitsData = getDefaultMaterialData(matType, filterMaterials);
+
+    // Get areas of selected units (single)
+    const areas: { [key: string]: number } = {};
+    defaultUnitsData.forEach((mat) => {
+      areas[mat.size] = calculateUnitArea(mat);
+    });
+
+    // Calculate total area covered by stock
+    const areaCovered = null;
   };
 
   return (
