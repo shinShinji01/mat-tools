@@ -46,15 +46,16 @@ const Inputs = (props: InputsProps) => {
         type="number"
         data-id={id}
         value={values[id] || ''}
+        required={true}
       />
     );
   });
 
   return (
-    <>
+    <form>
       <div css={inputsContainerStyles}>{inputs}</div>
       <button onClick={calculateHandler}>Calc</button>
-    </>
+    </form>
   );
 };
 
