@@ -5,6 +5,7 @@ interface InputProps {
   type?: string;
   placeholder?: string;
   value?: string;
+  [key: string]: any;
 }
 
 interface InputLabeledProps extends InputProps {
