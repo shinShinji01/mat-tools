@@ -12,7 +12,12 @@ interface InputData {
 }
 
 interface InputsProps {
-  onCalculate: (data: KeyNum, zip: boolean) => void;
+  onSubmit: (
+    e: React.FormEvent<HTMLFormElement>,
+    data: KeyNum,
+    zip: boolean
+  ) => void;
+  // onCalculate: (data: KeyNum, zip: boolean) => void;
   inputsData: InputData[];
 }
 
@@ -21,14 +26,20 @@ interface InputsState {
 }
 
 const Inputs = (props: InputsProps) => {
-  const { onCalculate, inputsData } = props;
+  const { onSubmit, inputsData } = props;
   const [values, setValues] = useState<InputsState>({});
   const [zip, setZip] = useState(false);
 
-  const calculateHandler = () => {
+  // const calculateHandler = () => {
+  //   const updatedValues: KeyNum = {};
+  //   for (const val in values) updatedValues[val] = +values[val];
+  //   onCalculate(updatedValues, zip);
+  // };
+
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     const updatedValues: KeyNum = {};
     for (const val in values) updatedValues[val] = +values[val];
-    onCalculate(updatedValues, zip);
+    onSubmit(e, updatedValues, zip);
   };
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,17 +74,15 @@ const Inputs = (props: InputsProps) => {
   });
 
   return (
-    <>
-      <div css={inputsContainerStyles}>
-        {inputs}
-        <LabeledCheckbox
-          label="Включить ZIP"
-          onChange={zipChangeHandler}
-          value={zip}
-        />
-        <Button label="Вычислить" onClick={calculateHandler} type="submit" />
-      </div>
-    </>
+    <form onSubmit={submitHandler} css={inputsContainerStyles}>
+      {inputs}
+      <LabeledCheckbox
+        label="Включить ZIP"
+        onChange={zipChangeHandler}
+        value={zip}
+      />
+      <Button label="Вычислить" type="submit" />
+    </form>
   );
 };
 

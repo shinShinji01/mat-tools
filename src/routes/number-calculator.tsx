@@ -82,6 +82,15 @@ const NumberCalculator = () => {
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setMatType(e.target.value);
 
+  const submitHandler = (
+    e: React.FormEvent<HTMLFormElement>,
+    data: KeyNum,
+    zip: boolean
+  ) => {
+    e.preventDefault();
+    calculate(data, zip);
+  };
+
   /**
    * Calculate the number of the conditioner, on which the next material roll will get started
    * @param data Input values
@@ -131,7 +140,7 @@ const NumberCalculator = () => {
       <Select onChange={onSelectChange} value={matType}>
         {selectOptions}
       </Select>
-      <Inputs onCalculate={calculate} inputsData={inputsData} />
+      <Inputs onSubmit={submitHandler} inputsData={inputsData} />
       <div>
         <ul>{output && renderOutput(output)}</ul>
       </div>

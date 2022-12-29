@@ -13,7 +13,6 @@ interface TotalMaterials {
 
 const outputStyles = css`
   list-style: none;
-  background-color: rgba(0, 0, 0, 0.2);
 `;
 
 const totalAmountNeeded = (
@@ -51,13 +50,11 @@ const renderOutput = (output: TotalMaterials) => {
   if (!output) return;
   const outputNodes = filterMaterials.map((mat) => {
     const { id, label } = mat;
-    const outputString = ``;
+    const outputString = `${label}: ${
+      output[id] < 0 ? `0 (избыток ${Math.abs(output[id])})` : `${output[id]}`
+    }`;
 
-    return (
-      <li key={id}>
-        {label}: {output[id]}
-      </li>
-    );
+    return <li key={id}>{outputString}</li>;
   });
 
   return outputNodes;
@@ -66,8 +63,13 @@ const renderOutput = (output: TotalMaterials) => {
 const MaterialsCalculator = () => {
   const [output, setOutput] = useState<TotalMaterials | null>(null);
 
-  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+  const submitHandler = (
+    e: React.FormEvent<HTMLFormElement>,
+    data: KeyNum,
+    zip: boolean
+  ) => {
     e.preventDefault();
+    calculate(data, zip);
   };
 
   /**
@@ -93,12 +95,10 @@ const MaterialsCalculator = () => {
     <>
       <SecondaryHeader label="Калькулятор материалов" />
       {/* Description */}
-      <form onSubmit={submitHandler}>
-        <Inputs
-          onCalculate={calculate}
-          inputsData={[{ label: 'Комплекты', id: 'sets' }, ...filterMaterials]}
-        />
-      </form>
+      <Inputs
+        onSubmit={submitHandler}
+        inputsData={[{ label: 'Комплекты', id: 'sets' }, ...filterMaterials]}
+      />
 
       <div>
         <ul css={outputStyles}>{output && renderOutput(output)}</ul>
