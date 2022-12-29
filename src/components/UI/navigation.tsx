@@ -6,18 +6,23 @@ interface NavigationProps {
   navLinks: LinkData[];
 }
 
-const navList = css({
-  display: 'flex',
-  gap: '1.2rem',
-  listStyle: 'none',
-});
+const navStyles = css`
+  width: 100%;
+  background-color: lightblue;
+`;
+
+const navListStyles = css`
+  display: flex;
+  gap: 1.2rem;
+  list-style: none;
+`;
 
 const Navigation = (props: NavigationProps) => {
   const { navLinks } = props;
 
   return (
-    <nav>
-      <ul css={navList}>
+    <nav css={navStyles}>
+      <ul css={navListStyles}>
         {navLinks.map(({ label, src }, index) => (
           <li key={index}>
             <Link href={src} label={label} />

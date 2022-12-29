@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { InputsState } from '../data/types';
+import { KeyNum } from '../data/types';
 import { FilterMaterialUnit } from '../data/materials';
 import { SecondaryHeader } from '../components/header';
 import Inputs from '../components/calculator/inputs';
 import Select from '../components/UI/select';
 import { filterMaterials, materialsTypes } from '../data/materials';
+import { ZIP_MULTIPLIER } from '../data/config';
 
 interface InputsData {
   label: string;
@@ -14,6 +15,15 @@ interface InputsData {
 interface KeyNumObject {
   [key: string]: number;
 }
+
+// Generate options for material type select menu
+const selectOptions = materialsTypes.map((mat) => {
+  return (
+    <option key={mat.id} value={mat.id}>
+      {mat.label}
+    </option>
+  );
+});
 
 const generateInputsObject = (
   materialType: string,
@@ -54,49 +64,42 @@ const calculateUnitArea = (unitData: FilterMaterialUnit) => {
 };
 
 // Render calculation data to the output container
-const renderOutput = (output: KeyNumObject) => {
+const renderOutput = (output: number) => {
   if (!output) return;
-  const outputNodes: React.ReactNode[] = [];
-
-  for (const mat in output) {
-    const node = (
-      <li key={mat}>
-        {mat}: {output[mat]}
-      </li>
-    );
-    outputNodes.push(node);
-  }
-
-  return outputNodes;
+  return <p>Закрытый №: {output}</p>;
 };
 
 const NumberCalculator = () => {
-  const [matType, setMatType] = useState('');
+  const [matType, setMatType] = useState(materialsTypes[0].id);
   const [inputsData, setInputsData] = useState<InputsData[]>([]);
-  const [output, setOutput] = useState<KeyNumObject | null>(null);
+  const [output, setOutput] = useState<number | null>(null);
 
   useEffect(
     () => setInputsData(generateInputsObject(matType, filterMaterials)),
     [matType]
   );
 
-  // Generate options for material type select menu
-  const selectOptions = materialsTypes.map((mat) => {
-    return (
-      <option key={mat.id} value={mat.id}>
-        {mat.label}
-      </option>
-    );
-  });
-
   const onSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) =>
     setMatType(e.target.value);
 
+  const submitHandler = (
+    e: React.FormEvent<HTMLFormElement>,
+    data: KeyNum,
+    zip: boolean
+  ) => {
+    e.preventDefault();
+    calculate(data, zip);
+  };
+
   /**
    * Calculate the number of the conditioner, on which the next material roll will get started
-   * @param data input values
+   * @param data Input values
+   * @param zip Checkbox value. Checks whether zip package should be included
    */
-  const calculate = (data: InputsState) => {
+  const calculate = (data: KeyNum, zip: boolean) => {
+    const { initial_number: initialNumber } = data;
+    if (!initialNumber) return;
+
     // Selected material data
     const defaultUnitsData = getDefaultMaterialData(matType, filterMaterials);
 
@@ -107,24 +110,28 @@ const NumberCalculator = () => {
     });
 
     // Area covered by stock
-    const areaCoveredByStock: KeyNumObject = {};
-    for (const mat in areas) areaCoveredByStock[mat] = areas[mat] * +data[mat];
+    let areaCoveredByStock = 0;
+    for (const mat in areas) areaCoveredByStock += areas[mat] * data[mat];
 
     // Area covered by single set
-    const areaCoveredBySet: KeyNumObject = {};
+    let areaCoveredBySet = 0;
     const defaultAmounts: KeyNumObject = {};
-    defaultUnitsData.forEach(
-      (mat) => (defaultAmounts[mat.id] = mat.defaultAmount)
-    );
+    defaultUnitsData.forEach((mat) => {
+      if (!mat.zip) defaultAmounts[mat.id] = mat.defaultAmount;
+      if (mat.zip)
+        defaultAmounts[mat.id] = zip
+          ? mat.defaultAmount * ZIP_MULTIPLIER
+          : mat.defaultAmount;
+    });
     for (const mat in areas)
-      areaCoveredBySet[mat] = areas[mat] * defaultAmounts[mat];
+      areaCoveredBySet += areas[mat] * defaultAmounts[mat];
 
     // How many sets covered
-    const results: KeyNumObject = {};
-    for (const mat in areaCoveredBySet)
-      results[mat] = areaCoveredByStock[mat] / areaCoveredBySet[mat];
+    const coveredSets = areaCoveredByStock / areaCoveredBySet;
 
-    setOutput(results);
+    // Next number
+    const nextNumber = Math.floor(coveredSets + initialNumber);
+    setOutput(nextNumber);
   };
 
   return (
@@ -134,7 +141,7 @@ const NumberCalculator = () => {
       <Select onChange={onSelectChange} value={matType}>
         {selectOptions}
       </Select>
-      <Inputs onCalculate={calculate} inputsData={inputsData} />
+      <Inputs onSubmit={submitHandler} inputsData={inputsData} />
       <div>
         <ul>{output && renderOutput(output)}</ul>
       </div>

@@ -6,6 +6,7 @@ module.exports = {
   output: {
     filename: 'main.js',
     path: path.resolve(__dirname, 'dist'),
+    publicPath: '/',
   },
 
   target: 'web',
@@ -41,5 +42,6 @@ module.exports = {
     hot: true,
     open: true,
     watchFiles: ['src/**/*'],
+    historyApiFallback: true,
   },
 };
