@@ -1,5 +1,3 @@
-import { NumberLiteralType } from 'typescript';
-
 export interface FilterMaterial {
   label: string;
   type: string;

@@ -1,19 +1,26 @@
 import { css } from '@emotion/react';
 import { LinkData } from '../../data/navigation-items';
 import Link from './link';
+import Auth from '../auth/auth';
+import { height, space } from '../../styles/variables';
 
 interface NavigationProps {
   navLinks: LinkData[];
 }
 
-const navStyles = css`
-  width: 100%;
+const navContainerStyles = css`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: ${height.navigation};
+  width: 70%;
   background-color: lightblue;
 `;
 
 const navListStyles = css`
   display: flex;
-  gap: 1.2rem;
+  gap: ${space.sm};
+  padding: ${space.md};
   list-style: none;
 `;
 
@@ -21,7 +28,7 @@ const Navigation = (props: NavigationProps) => {
   const { navLinks } = props;
 
   return (
-    <nav css={navStyles}>
+    <nav css={navContainerStyles} className="navigation-container">
       <ul css={navListStyles}>
         {navLinks.map(({ label, src }, index) => (
           <li key={index}>
@@ -29,6 +36,7 @@ const Navigation = (props: NavigationProps) => {
           </li>
         ))}
       </ul>
+      <Auth />
     </nav>
   );
 };

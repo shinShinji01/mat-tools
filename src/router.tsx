@@ -34,12 +34,4 @@ const router = createBrowserRouter([
   },
 ]);
 
-// const router = createBrowserRouter([
-//   {
-//     path: '/',
-//     // element: <MaterialsCalculator />,
-//     element: <NumberCalculator />,
-//   },
-// ]);
-
 export default router;

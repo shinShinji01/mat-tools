@@ -66,10 +66,10 @@ export const onUserStateChanged = (updateState: (data: boolean) => void) => {
   onAuthStateChanged(auth, (user) => {
     if (user) {
       // const uid = user.uid;
-      console.log('fine');
+      console.log('user in');
       updateState(true);
     } else {
-      console.log('herovo');
+      console.log('user out');
       updateState(false);
     }
   });

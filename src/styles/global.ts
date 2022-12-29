@@ -1,7 +1,7 @@
-import { css } from '@emotion/react';
-import { colors } from './colors';
 import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/700.css';
+import { css } from '@emotion/react';
+import { flexCenterColumn } from './variables';
 
 export const globalStyles = css`
   * {
@@ -21,12 +21,6 @@ export const globalStyles = css`
   }
 
   #root {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    ${flexCenterColumn};
   }
-`;
-
-export const errorRed = css`
-  color: ${colors.errorRed};
 `;

@@ -12,7 +12,7 @@ const Calculator = () => {
   // ====
   // return to index
   return (
-    <main>
+    <main className="calculator-container">
       <Outlet />
       <Link href="/" label="На главную" />
     </main>

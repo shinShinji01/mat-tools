@@ -4,9 +4,9 @@ import UserButton from './user-button';
 import SignButtons from './sign-buttons';
 import SignIn from './signin';
 import SignUp from './signup';
-import { userBtnSide } from './user-button';
 import { signOutUser } from '../../utils/firebase';
 import { authContext } from '../../context/auth-context';
+import { flexCenterColumn, height, space } from '../../styles/variables';
 
 interface AuthFormProps {
   onMouseLeave: () => void;
@@ -27,14 +27,11 @@ const AuthForm = (props: AuthFormProps) => {
   };
 
   const authFormStyles = css`
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.4rem;
+    ${flexCenterColumn}
+    gap: ${space.md};
     position: absolute;
     right: 0;
-    top: ${userBtnSide};
+    top: ${height.navigation};
     width: 25rem;
     height: 35rem;
     background-color: wheat;

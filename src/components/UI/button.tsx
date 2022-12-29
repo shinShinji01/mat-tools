@@ -1,5 +1,3 @@
-import { ButtonHTMLAttributes } from 'react';
-
 interface ButtonProps {
   label?: string;
   children?: React.ReactNode;

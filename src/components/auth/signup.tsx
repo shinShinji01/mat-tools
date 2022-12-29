@@ -3,7 +3,7 @@ import { InputsState } from '../../data/types';
 import { signUpUserEmailPassword } from '../../utils/firebase';
 import Button from '../UI/button';
 import { Input } from '../UI/input';
-import { errorRed } from '../../styles/global';
+import { errorRed } from '../../styles/variables';
 
 const inputsData = [
   {

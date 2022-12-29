@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { ZIP_MULTIPLIER } from '../../data/config';
 import { KeyNum } from '../../data/types';
 import { inputsContainerStyles } from '../../styles/inputs';
 import Button from '../UI/button';
@@ -17,7 +16,6 @@ interface InputsProps {
     data: KeyNum,
     zip: boolean
   ) => void;
-  // onCalculate: (data: KeyNum, zip: boolean) => void;
   inputsData: InputData[];
 }
 
@@ -29,12 +27,6 @@ const Inputs = (props: InputsProps) => {
   const { onSubmit, inputsData } = props;
   const [values, setValues] = useState<InputsState>({});
   const [zip, setZip] = useState(false);
-
-  // const calculateHandler = () => {
-  //   const updatedValues: KeyNum = {};
-  //   for (const val in values) updatedValues[val] = +values[val];
-  //   onCalculate(updatedValues, zip);
-  // };
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     const updatedValues: KeyNum = {};
