@@ -4,6 +4,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
+  signOut,
 } from 'firebase/auth';
 import { errorHandler } from './firebase-helpers';
 
@@ -47,4 +49,28 @@ export const signInUserEmailPassword = async (
   } catch (error: any) {
     errorHandler(error);
   }
+};
+
+// Sign out
+export const signOutUser = async () => {
+  try {
+    const res = await signOut(auth);
+    console.log(res);
+  } catch (error: any) {
+    errorHandler(error);
+  }
+};
+
+// Get current login state and user
+export const onUserStateChanged = (updateState: (data: boolean) => void) => {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // const uid = user.uid;
+      console.log('fine');
+      updateState(true);
+    } else {
+      console.log('herovo');
+      updateState(false);
+    }
+  });
 };

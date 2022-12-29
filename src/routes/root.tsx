@@ -3,6 +3,7 @@ import { css } from '@emotion/react';
 import { navLinks } from '../data/navigation-items';
 import Navigation from '../components/UI/navigation';
 import Auth from '../components/auth/auth';
+import AuthProvider from '../context/auth-context';
 
 const navContainerStyles = css`
   display: flex;
@@ -13,7 +14,7 @@ const navContainerStyles = css`
 
 const Root = () => {
   return (
-    <>
+    <AuthProvider>
       <div css={navContainerStyles} className="navigation-container">
         <Navigation navLinks={navLinks} />
         <Auth />
@@ -21,7 +22,7 @@ const Root = () => {
       <div className="calculator-container">
         <Outlet />
       </div>
-    </>
+    </AuthProvider>
   );
 };
 

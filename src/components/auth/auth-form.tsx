@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { css } from '@emotion/react';
 import UserButton from './user-button';
 import SignButtons from './sign-buttons';
 import SignIn from './signin';
 import SignUp from './signup';
 import { userBtnSide } from './user-button';
+import { signOutUser } from '../../utils/firebase';
+import { authContext } from '../../context/auth-context';
 
 interface AuthFormProps {
   onMouseLeave: () => void;
@@ -12,7 +14,11 @@ interface AuthFormProps {
 
 const AuthForm = (props: AuthFormProps) => {
   const { onMouseLeave } = props;
+
+  const authCtx = useContext(authContext);
+  const { loginState } = authCtx;
   const [actionType, setActionType] = useState<string | null>(null);
+
   const actionHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     const id = e.currentTarget.dataset.id;
@@ -39,9 +45,10 @@ const AuthForm = (props: AuthFormProps) => {
       <div>
         <UserButton />
       </div>
-      <SignButtons onClick={actionHandler} />
+      {!loginState && <SignButtons onClick={actionHandler} />}
       {actionType === 'sign-in' && <SignIn />}
       {actionType === 'sign-up' && <SignUp />}
+      {loginState && <button onClick={signOutUser}>Sign Out</button>}
     </div>
   );
 };
