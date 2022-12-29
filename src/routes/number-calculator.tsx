@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { InputsState } from '../data/types';
+import { KeyNum } from '../data/types';
 import { FilterMaterialUnit } from '../data/materials';
 import { SecondaryHeader } from '../components/header';
 import Inputs from '../components/calculator/inputs';
 import Select from '../components/UI/select';
 import { filterMaterials, materialsTypes } from '../data/materials';
+import { ZIP_MULTIPLIER } from '../data/config';
 
 interface InputsData {
   label: string;
@@ -83,9 +84,10 @@ const NumberCalculator = () => {
 
   /**
    * Calculate the number of the conditioner, on which the next material roll will get started
-   * @param data input values
+   * @param data Input values
+   * @param zip Checkbox value. Checks whether zip package should be included
    */
-  const calculate = (data: InputsState) => {
+  const calculate = (data: KeyNum, zip: boolean) => {
     const { initial_number: initialNumber } = data;
     if (!initialNumber) return;
 
@@ -106,7 +108,10 @@ const NumberCalculator = () => {
     let areaCoveredBySet = 0;
     const defaultAmounts: KeyNumObject = {};
     defaultUnitsData.forEach(
-      (mat) => (defaultAmounts[mat.id] = mat.defaultAmount)
+      (mat) =>
+        (defaultAmounts[mat.id] = zip
+          ? mat.defaultAmount * ZIP_MULTIPLIER
+          : mat.defaultAmount)
     );
     for (const mat in areas)
       areaCoveredBySet += areas[mat] * defaultAmounts[mat];

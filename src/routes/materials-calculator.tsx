@@ -1,13 +1,14 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { FilterMaterialUnit } from '../data/materials';
-import { InputsState } from '../data/types';
+import { KeyNum } from '../data/types';
 import { SecondaryHeader } from '../components/header';
 import { filterMaterials } from '../data/materials';
 import Inputs from '../components/calculator/inputs';
+import { ZIP_MULTIPLIER } from '../data/config';
 
 interface TotalMaterials {
-  [key: string]: number | string;
+  [key: string]: number;
 }
 
 const outputStyles = css`
@@ -17,11 +18,16 @@ const outputStyles = css`
 
 const totalAmountNeeded = (
   setsNeeded: number,
+  zip: boolean,
   materials: FilterMaterialUnit[]
 ): TotalMaterials => {
   const totalMaterials: TotalMaterials = {};
+
   materials.forEach((mat) => {
-    totalMaterials[mat.id] = mat.defaultAmount * setsNeeded;
+    const calculateAmountForSets = mat.defaultAmount * setsNeeded;
+    totalMaterials[mat.id] = zip
+      ? calculateAmountForSets * ZIP_MULTIPLIER
+      : calculateAmountForSets;
   });
 
   return totalMaterials;
@@ -35,7 +41,7 @@ const totalAndStockDifference = (
   Object.entries(totalNeeded).forEach((mat) => {
     const [id, amountNeeded] = mat;
     const amountStock = stock[id];
-    difference[id] = +amountNeeded - +amountStock;
+    difference[id] = amountNeeded - amountStock;
   });
 
   return difference;
@@ -59,11 +65,24 @@ const renderOutput = (output: TotalMaterials) => {
 const MaterialsCalculator = () => {
   const [output, setOutput] = useState<TotalMaterials | null>(null);
 
-  const calculate = (data: InputsState) => {
-    // calculate how many materials needed for desired amount of sets
-    const totalMaterialsNeeded = totalAmountNeeded(+data.sets, filterMaterials);
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+  };
 
-    // subtract materials already in stock from the total desired amount
+  /**
+   * Calculate how many units of each material is needed for desired amount of sets
+   * @param data Input data
+   * @param zip Checkbox value. Checks whether zip package should be included
+   */
+  const calculate = (data: KeyNum, zip: boolean) => {
+    // Calculate how many materials needed for desired amount of sets
+    const totalMaterialsNeeded = totalAmountNeeded(
+      data.sets,
+      zip,
+      filterMaterials
+    );
+
+    // Subtract materials already in stock from the total desired amount
     const difference = totalAndStockDifference(totalMaterialsNeeded, data);
 
     setOutput(difference);
@@ -73,10 +92,12 @@ const MaterialsCalculator = () => {
     <>
       <SecondaryHeader label="Калькулятор материалов" />
       {/* Description */}
-      <Inputs
-        onCalculate={calculate}
-        inputsData={[{ label: 'Комплекты', id: 'sets' }, ...filterMaterials]}
-      />
+      <form onSubmit={submitHandler}>
+        <Inputs
+          onCalculate={calculate}
+          inputsData={[{ label: 'Комплекты', id: 'sets' }, ...filterMaterials]}
+        />
+      </form>
 
       <div>
         <ul css={outputStyles}>{output && renderOutput(output)}</ul>

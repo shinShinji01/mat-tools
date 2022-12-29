@@ -1,16 +1,18 @@
 import { ButtonHTMLAttributes } from 'react';
 
 interface ButtonProps {
-  children: React.ReactNode;
+  label?: string;
+  children?: React.ReactNode;
   type?: 'submit' | 'reset';
   onClick?:
     | ((e?: React.MouseEvent<HTMLButtonElement>) => Promise<void>)
-    | ((e?: React.MouseEvent<HTMLButtonElement>) => void);
+    | ((e?: React.MouseEvent<HTMLButtonElement>) => void)
+    | ((data?: any) => void);
 }
 
 const Button = (props: ButtonProps) => {
-  const { children, ...rest } = props;
-  return <button {...rest}>{children}</button>;
+  const { children, label, ...rest } = props;
+  return <button {...rest}>{children || label}</button>;
 };
 
 export default Button;
