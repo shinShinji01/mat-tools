@@ -66,7 +66,7 @@ const calculateUnitArea = (unitData: FilterMaterialUnit) => {
 // Render calculation data to the output container
 const renderOutput = (output: number) => {
   if (!output) return;
-  return <p>{output}</p>;
+  return <p>Закрытый №: {output}</p>;
 };
 
 const NumberCalculator = () => {
@@ -102,7 +102,7 @@ const NumberCalculator = () => {
 
     // Area covered by stock
     let areaCoveredByStock = 0;
-    for (const mat in areas) areaCoveredByStock += areas[mat] * +data[mat];
+    for (const mat in areas) areaCoveredByStock += areas[mat] * data[mat];
 
     // Area covered by single set
     let areaCoveredBySet = 0;
@@ -120,7 +120,7 @@ const NumberCalculator = () => {
     const coveredSets = areaCoveredByStock / areaCoveredBySet;
 
     // Next number
-    const nextNumber = Math.floor(coveredSets + +initialNumber);
+    const nextNumber = Math.floor(coveredSets + initialNumber);
     setOutput(nextNumber);
   };
 

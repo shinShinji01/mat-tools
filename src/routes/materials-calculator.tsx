@@ -51,6 +51,7 @@ const renderOutput = (output: TotalMaterials) => {
   if (!output) return;
   const outputNodes = filterMaterials.map((mat) => {
     const { id, label } = mat;
+    const outputString = ``;
 
     return (
       <li key={id}>
