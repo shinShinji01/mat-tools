@@ -15,4 +15,9 @@ export const navLinks: LinkData[] = [
     src: 'calculator/number',
     header: 'Калькулятор номера',
   },
+  {
+    label: 'Площади',
+    src: '#',
+    header: 'Площади',
+  },
 ];

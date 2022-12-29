@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { FilterMaterialUnit } from '../data/materials';
 import { KeyNum } from '../data/types';
 import { SecondaryHeader } from '../components/header';
-import { filterMaterials } from '../data/materials';
+import { filterMaterials, materialsTypes } from '../data/materials';
 import Inputs from '../components/calculator/inputs';
 import { ZIP_MULTIPLIER } from '../data/config';
 
@@ -24,9 +24,12 @@ const totalAmountNeeded = (
 
   materials.forEach((mat) => {
     const calculateAmountForSets = mat.defaultAmount * setsNeeded;
-    totalMaterials[mat.id] = zip
-      ? calculateAmountForSets * ZIP_MULTIPLIER
-      : calculateAmountForSets;
+
+    if (!mat.zip) totalMaterials[mat.id] = calculateAmountForSets;
+    if (mat.zip)
+      totalMaterials[mat.id] = zip
+        ? calculateAmountForSets * ZIP_MULTIPLIER
+        : calculateAmountForSets;
   });
 
   return totalMaterials;

@@ -116,12 +116,13 @@ const NumberCalculator = () => {
     // Area covered by single set
     let areaCoveredBySet = 0;
     const defaultAmounts: KeyNumObject = {};
-    defaultUnitsData.forEach(
-      (mat) =>
-        (defaultAmounts[mat.id] = zip
+    defaultUnitsData.forEach((mat) => {
+      if (!mat.zip) defaultAmounts[mat.id] = mat.defaultAmount;
+      if (mat.zip)
+        defaultAmounts[mat.id] = zip
           ? mat.defaultAmount * ZIP_MULTIPLIER
-          : mat.defaultAmount)
-    );
+          : mat.defaultAmount;
+    });
     for (const mat in areas)
       areaCoveredBySet += areas[mat] * defaultAmounts[mat];
 

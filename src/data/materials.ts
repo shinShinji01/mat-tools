@@ -4,6 +4,7 @@ export interface FilterMaterial {
   label: string;
   type: string;
   id: string;
+  zip: boolean;
 }
 
 export interface FilterMaterialUnit extends FilterMaterial {
@@ -17,16 +18,19 @@ export const materialsTypes: FilterMaterial[] = [
     label: 'Фильтр',
     type: 'filter',
     id: 'filter',
+    zip: true,
   },
   {
     label: 'Сетка сварная',
     type: 'welded_mesh',
     id: 'welded_mesh',
+    zip: false,
   },
   {
     label: 'Сетка плетеная',
     type: 'woven_mesh',
     id: 'woven_mesh',
+    zip: false,
   },
 ];
 
@@ -38,6 +42,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
     type: 'filter',
     size: 'small',
     id: 'filter_s',
+    zip: true,
   },
   {
     label: 'Фильтр (Б)',
@@ -46,6 +51,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
     type: 'filter',
     size: 'large',
     id: 'filter_l',
+    zip: true,
   },
   {
     label: 'Сетка плетеная (М)',
@@ -54,6 +60,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
     type: 'woven_mesh',
     size: 'small',
     id: 'woven_mesh_s',
+    zip: false,
   },
   {
     label: 'Сетка плетеная (Б)',
@@ -62,6 +69,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
     type: 'woven_mesh',
     size: 'large',
     id: 'woven_mesh_l',
+    zip: false,
   },
   {
     label: 'Сетка сварная (М)',
@@ -70,6 +78,7 @@ export const filterMaterials: FilterMaterialUnit[] = [
     type: 'welded_mesh',
     size: 'small',
     id: 'welded_mesh_s',
+    zip: false,
   },
   {
     label: 'Сетка сварная (Б)',
@@ -78,5 +87,6 @@ export const filterMaterials: FilterMaterialUnit[] = [
     type: 'welded_mesh',
     size: 'large',
     id: 'welded_mesh_l',
+    zip: false,
   },
 ];
