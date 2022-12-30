@@ -8,11 +8,11 @@ interface LinkProps {
 }
 
 const link = css({
-  color: `${colors.grape}`,
+  color: `${colors.orangeTextLight}`,
   textDecoration: 'none',
 
   '&:hover': {
-    borderBottom: `0.1rem solid ${colors.grape}`,
+    borderBottom: `0.1rem solid ${colors.orangeTextLight}`,
   },
 });
 

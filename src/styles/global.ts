@@ -1,7 +1,9 @@
 import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import { css } from '@emotion/react';
-import { flexCenterColumn } from './variables';
+import { flexCenterColumn, shadow } from './variables';
+import { colors } from './colors';
 
 export const globalStyles = css`
   * {
@@ -17,7 +19,14 @@ export const globalStyles = css`
 
   body {
     font-size: 1.6rem;
-    background-color: aliceblue;
+    color: ${colors.orangeTextLight};
+    background: linear-gradient(
+      145deg,
+      ${colors.backgroundGray},
+      ${colors.backgroundGraySecondary} 85%
+    );
+    background-repeat: no-repeat;
+    background-attachment: fixed;
   }
 
   #root {

@@ -12,9 +12,9 @@ const userBtnStyles = css`
   ${flexCenter};
   height: ${height.navigation};
   aspect-ratio: 1 / 1;
-  border: 0.2rem solid ${colors.grape};
+  border: 0.2rem solid ${colors.orangeTextLight};
   border-radius: ${borderRadius.circle};
-  color: ${colors.grape};
+  color: ${colors.orangeTextLight};
   text-decoration: none;
 `;
 

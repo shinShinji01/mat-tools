@@ -1,5 +1,6 @@
 import { css } from '@emotion/react';
 import { colors } from './colors';
+import { hexToRgb } from '../utils/utils';
 
 export const flexCenter = css`
   display: flex;
@@ -12,8 +13,13 @@ export const flexCenterColumn = css`
   flex-direction: column;
 `;
 
+export const gridTwoCols = css`
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+`;
+
 export const borderRadius = {
-  smooth: '1.2rem',
+  smooth: '2.4rem',
   round: '100rem',
   circle: '50%',
 };
@@ -24,10 +30,18 @@ export const space = {
   lg: '3.2rem',
   xl: '4.8rem',
   xxl: '5.6rem',
+  ultra: '7.2rem',
 };
 
 export const height = {
   navigation: '4.8rem',
+};
+
+export const shadow = {
+  // focus: `0 0 2rem 2rem rgba(${hexToRgb(colors.orangeLight)}, 0.5`,
+  focus: `0 0 2rem 1rem rgba(${hexToRgb(colors.orangeLight)}, 0.5)`,
+  inset: '0 0.2rem 1.2rem 1rem rgba(0,0,0,0.12)',
+  normal: '0 1rem 1.2rem 0.2rem rgba(0,0,0,0.2)',
 };
 
 export const errorRed = css`

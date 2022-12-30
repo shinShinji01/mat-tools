@@ -9,7 +9,6 @@ const Auth = () => {
 
   const test = css`
     position: relative;
-    background-color: red;
   `;
 
   return (
