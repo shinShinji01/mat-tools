@@ -10,5 +10,9 @@ export const colors = {
   dividerOrangeLight: '#dfc279',
   dividerGrayLight: '#e7e8ea',
 
+  greenDark: '#4e7f14',
+  green: '#6fb61c',
+  greenLight: '#9acc60',
+
   errorRed: '#e03131',
 };

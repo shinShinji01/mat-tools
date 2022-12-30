@@ -6,6 +6,7 @@ import { SecondaryHeader } from '../components/header';
 import { filterMaterials } from '../data/materials';
 import Inputs from '../components/calculator/inputs';
 import { ZIP_MULTIPLIER } from '../data/config';
+import { Calculator } from 'phosphor-react';
 
 interface TotalMaterials {
   [key: string]: number;
@@ -96,7 +97,9 @@ const MaterialsCalculator = () => {
 
   return (
     <>
-      <SecondaryHeader label="Калькулятор материалов" />
+      <SecondaryHeader label="Калькулятор материалов">
+        <Calculator size={36} weight="fill" />
+      </SecondaryHeader>
       {/* Description */}
       <Inputs
         onSubmit={submitHandler}

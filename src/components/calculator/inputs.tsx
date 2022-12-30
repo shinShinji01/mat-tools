@@ -2,17 +2,17 @@ import { useState } from 'react';
 import { css } from '@emotion/react';
 import { KeyNum } from '../../data/types';
 import Button from '../UI/button';
-import { LabeledCheckbox } from '../UI/checkbox';
+import { LabeledCheckboxFancy } from '../UI/checkbox';
 import { InputLabeled } from '../UI/input';
 import {
-  borderRadius,
   flexCenterColumn,
   gridTwoCols,
+  inputsBase,
   shadow,
   space,
 } from '../../styles/variables';
 import { colors } from '../../styles/colors';
-import { hexToRgb } from '../../utils/utils';
+import { PlusMinus } from 'phosphor-react';
 
 interface InputData {
   label: string;
@@ -41,6 +41,7 @@ const inputsContainerStyles = css`
 
 const inputsStyles = css`
   ${gridTwoCols};
+  width: 100%;
   row-gap: ${space.sm};
   column-gap: ${space.xxl};
   margin-bottom: ${space.md};
@@ -48,19 +49,8 @@ const inputsStyles = css`
   text-shadow: 0 0 0.25rem ${colors.orangeLight};
 
   input {
-    padding: ${space.sm} ${space.md};
-    margin-right: ${space.md};
+    ${inputsBase};
     width: 10rem;
-    font-size: 1.8rem;
-    font-weight: 500;
-    letter-spacing: 0.1rem;
-    color: ${colors.orange};
-    text-align: center;
-    text-shadow: 0 0 0.15rem ${colors.orangeLight};
-    border: none;
-    border-radius: ${borderRadius.round};
-    background-color: rgba(${hexToRgb(colors.backgroundGray)}, 0.6);
-    box-shadow: inset ${shadow.inset};
 
     &:focus {
       outline: none;
@@ -82,6 +72,8 @@ const inputsStyles = css`
 const secondaryInputStyles = css`
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
+  padding-left: ${space.sm};
   gap: ${space.sm};
   margin-bottom: ${space.lg};
 `;
@@ -89,7 +81,7 @@ const secondaryInputStyles = css`
 const Inputs = (props: InputsProps) => {
   const { onSubmit, inputsData } = props;
   const [values, setValues] = useState<InputsState>({});
-  const [zip, setZip] = useState(false);
+  const [zip, setZip] = useState(true);
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     const updatedValues: KeyNum = {};
@@ -132,12 +124,14 @@ const Inputs = (props: InputsProps) => {
     <form onSubmit={submitHandler} css={inputsContainerStyles}>
       <div css={inputsStyles}>{inputs}</div>
       <div css={secondaryInputStyles}>
-        <LabeledCheckbox
-          label="Включить ZIP"
+        <LabeledCheckboxFancy
+          label="ZIP"
           onChange={zipChangeHandler}
           value={zip}
         />
-        <Button label="Вычислить" type="submit" />
+        <Button label="Считаем" type="submit">
+          <PlusMinus size={28} weight="bold" />
+        </Button>
       </div>
     </form>
   );

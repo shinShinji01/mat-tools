@@ -4,8 +4,10 @@ import { FilterMaterialUnit } from '../data/materials';
 import { SecondaryHeader } from '../components/header';
 import Inputs from '../components/calculator/inputs';
 import Select from '../components/UI/select';
+import Label from '../components/UI/label';
 import { filterMaterials, materialsTypes } from '../data/materials';
 import { ZIP_MULTIPLIER } from '../data/config';
+import { Calculator } from 'phosphor-react';
 
 interface InputsData {
   label: string;
@@ -136,11 +138,15 @@ const NumberCalculator = () => {
 
   return (
     <>
-      <SecondaryHeader label="Калькулятор номеров" />
+      <SecondaryHeader label="Калькулятор номеров">
+        <Calculator size={36} weight="fill" />
+      </SecondaryHeader>
       {/* Description */}
-      <Select onChange={onSelectChange} value={matType}>
-        {selectOptions}
-      </Select>
+      <Label label="Материал">
+        <Select onChange={onSelectChange} value={matType}>
+          {selectOptions}
+        </Select>
+      </Label>
       <Inputs onSubmit={submitHandler} inputsData={inputsData} />
       <div>
         <ul>{output && renderOutput(output)}</ul>

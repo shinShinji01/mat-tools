@@ -38,11 +38,32 @@ export const height = {
 };
 
 export const shadow = {
-  // focus: `0 0 2rem 2rem rgba(${hexToRgb(colors.orangeLight)}, 0.5`,
   focus: `0 0 2rem 1rem rgba(${hexToRgb(colors.orangeLight)}, 0.5)`,
   inset: '0 0.2rem 1.2rem 1rem rgba(0,0,0,0.12)',
   normal: '0 1rem 1.2rem 0.2rem rgba(0,0,0,0.2)',
 };
+
+export const dividers = {
+  orange: css`
+    padding-bottom: ${space.md};
+    border-bottom: 0.1rem solid ${colors.dividerOrangeLight};
+  `,
+};
+
+export const inputsBase = css`
+  padding: ${space.sm} ${space.md};
+  margin-right: ${space.sm};
+  font-size: 1.8rem;
+  font-weight: 500;
+  letter-spacing: 0.1rem;
+  color: ${colors.orange};
+  text-align: center;
+  text-shadow: 0 0 0.15rem ${colors.orangeLight};
+  border: none;
+  border-radius: ${borderRadius.round};
+  background-color: rgba(${hexToRgb(colors.backgroundGray)}, 0.6);
+  box-shadow: inset ${shadow.inset};
+`;
 
 export const errorRed = css`
   color: ${colors.errorRed};
