@@ -22,8 +22,8 @@ export const globalStyles = css`
     color: ${colors.orangeTextLight};
     background: linear-gradient(
       145deg,
-      ${colors.backgroundGray},
-      ${colors.backgroundGraySecondary} 85%
+      ${colors.grayBackground},
+      ${colors.grayBackgroundSecondary} 85%
     );
     background-repeat: no-repeat;
     background-attachment: fixed;

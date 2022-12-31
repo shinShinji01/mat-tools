@@ -1,6 +1,10 @@
 export const colors = {
-  backgroundGray: '#080c15',
-  backgroundGraySecondary: '#0f172a',
+  grayBackground: '#080c15',
+  grayBackgroundSecondary: '#0f172a',
+
+  grayDark: '#272e3f',
+  gray: '#575d6a',
+  grayLight: '#9fa2aa',
 
   orangeTextLight: '#faf5e9',
   orangeDark: '#8d6c16',
@@ -14,5 +18,7 @@ export const colors = {
   green: '#6fb61c',
   greenLight: '#9acc60',
 
-  errorRed: '#e03131',
+  redDark: '#7a123a',
+  red: '#AE1A53',
+  redLight: '#c65f87',
 };

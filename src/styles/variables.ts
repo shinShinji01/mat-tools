@@ -61,10 +61,10 @@ export const inputsBase = css`
   text-shadow: 0 0 0.15rem ${colors.orangeLight};
   border: none;
   border-radius: ${borderRadius.round};
-  background-color: rgba(${hexToRgb(colors.backgroundGray)}, 0.6);
+  background-color: rgba(${hexToRgb(colors.grayBackground)}, 0.6);
   box-shadow: inset ${shadow.inset};
 `;
 
 export const errorRed = css`
-  color: ${colors.errorRed};
+  color: ${colors.red};
 `;

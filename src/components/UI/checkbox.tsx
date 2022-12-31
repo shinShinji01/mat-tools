@@ -45,7 +45,7 @@ const fancyCheckBoxStyles = css`
 
   ::before {
     ${pseudoCheckboxStyles}
-    background: rgba(${hexToRgb(colors.backgroundGray)}, 0.6);
+    background: rgba(${hexToRgb(colors.grayBackground)}, 0.6);
   }
 `;
 
