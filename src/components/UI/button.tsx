@@ -16,7 +16,7 @@ interface ButtonProps {
 const buttonStyles = css`
   ${flexCenter};
   gap: ${space.sm};
-  padding: ${space.sm} ${space.lg};
+  padding: ${space.sm};
   font-size: 2rem;
   font-weight: 700;
   letter-spacing: 0.1rem;
@@ -50,6 +50,8 @@ const submitButtonStyles = css`
 
 const resetButtonStyles = css`
   ${buttonStyles};
+  border-radius: ${borderRadius.circle};
+  aspect-ratio: 1 / 1;
   background: linear-gradient(135deg, ${colors.redDark}, ${colors.red});
   box-shadow: 0 0 0.5rem 0.1rem ${colors.redDark};
 `;

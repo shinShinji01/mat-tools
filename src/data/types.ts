@@ -5,3 +5,10 @@ export interface InputsState {
 export interface KeyNum {
   [key: string]: number;
 }
+
+export interface OutputResults {
+  [key: string]: {
+    label: string;
+    value: number;
+  };
+}

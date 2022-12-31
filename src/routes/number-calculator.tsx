@@ -8,6 +8,8 @@ import Label from '../components/UI/label';
 import { filterMaterials, materialsTypes } from '../data/materials';
 import { ZIP_MULTIPLIER } from '../data/config';
 import { Calculator } from 'phosphor-react';
+import CalculatorCard from '../components/calculator/calculator-card';
+import Output from '../components/calculator/output';
 
 interface InputsData {
   label: string;
@@ -65,10 +67,10 @@ const calculateUnitArea = (unitData: FilterMaterialUnit) => {
   return area;
 };
 
-// Render calculation data to the output container
-const renderOutput = (output: number) => {
-  if (!output) return;
-  return <p>Закрытый №: {output}</p>;
+// Generate output object for the output component
+const generateOutput = (output: number) => {
+  const resultObj = { num: { label: 'Следующий №', value: output } };
+  return resultObj;
 };
 
 const NumberCalculator = () => {
@@ -137,21 +139,24 @@ const NumberCalculator = () => {
   };
 
   return (
-    <>
-      <SecondaryHeader label="Калькулятор номеров">
-        <Calculator size={36} weight="fill" />
-      </SecondaryHeader>
-      {/* Description */}
-      <Label label="Материал">
-        <Select onChange={onSelectChange} value={matType}>
-          {selectOptions}
-        </Select>
-      </Label>
-      <Inputs onSubmit={submitHandler} inputsData={inputsData} />
-      <div>
+    <div>
+      <CalculatorCard>
+        <SecondaryHeader label="Калькулятор номеров">
+          <Calculator size={36} weight="fill" />
+        </SecondaryHeader>
+        {/* Description */}
+        <Label label="Материал">
+          <Select onChange={onSelectChange} value={matType}>
+            {selectOptions}
+          </Select>
+        </Label>
+        <Inputs onSubmit={submitHandler} inputsData={inputsData} />
+      </CalculatorCard>
+      {/* <div>
         <ul>{output && renderOutput(output)}</ul>
-      </div>
-    </>
+      </div> */}
+      {output && <Output results={generateOutput(output)} />}
+    </div>
   );
 };
 

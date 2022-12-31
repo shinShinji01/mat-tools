@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { css } from '@emotion/react';
 import { KeyNum } from '../../data/types';
 import Button from '../UI/button';
@@ -12,7 +12,7 @@ import {
   space,
 } from '../../styles/variables';
 import { colors } from '../../styles/colors';
-import { PlusMinus } from 'phosphor-react';
+import { PlusMinus, X } from 'phosphor-react';
 
 interface InputData {
   label: string;
@@ -75,7 +75,11 @@ const secondaryInputStyles = css`
   align-items: flex-start;
   padding-left: ${space.sm};
   gap: ${space.sm};
-  margin-bottom: ${space.lg};
+
+  .buttons {
+    display: flex;
+    gap: ${space.md};
+  }
 `;
 
 const Inputs = (props: InputsProps) => {
@@ -87,6 +91,14 @@ const Inputs = (props: InputsProps) => {
     const updatedValues: KeyNum = {};
     for (const val in values) updatedValues[val] = +values[val];
     onSubmit(e, updatedValues, zip);
+  };
+
+  const resetHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    const resetValues: InputsState = {};
+    for (const val in values) {
+      resetValues[val] = '';
+    }
+    setValues(resetValues);
   };
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -115,7 +127,7 @@ const Inputs = (props: InputsProps) => {
         type="number"
         data-id={id}
         value={values[id] || ''}
-        required={true}
+        required
       />
     );
   });
@@ -124,14 +136,21 @@ const Inputs = (props: InputsProps) => {
     <form onSubmit={submitHandler} css={inputsContainerStyles}>
       <div css={inputsStyles}>{inputs}</div>
       <div css={secondaryInputStyles}>
-        <LabeledCheckboxFancy
-          label="ZIP"
-          onChange={zipChangeHandler}
-          value={zip}
-        />
-        <Button label="Считаем" type="submit">
-          <PlusMinus size={28} weight="bold" />
-        </Button>
+        <div>
+          <LabeledCheckboxFancy
+            label="ZIP"
+            onChange={zipChangeHandler}
+            value={zip}
+          />
+        </div>
+        <div className="buttons">
+          <Button label="Считаем" type="submit">
+            <PlusMinus size={20} weight="bold" />
+          </Button>
+          <Button type="reset" onClick={resetHandler}>
+            <X size={20} weight="bold" />
+          </Button>
+        </div>
       </div>
     </form>
   );

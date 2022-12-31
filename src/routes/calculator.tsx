@@ -21,7 +21,7 @@ const Calculator = () => {
     width: 70%;
     max-width: 80rem;
     min-width: 70rem;
-    padding: ${space.lg};
+
     background: linear-gradient(
       165deg,
       rgba(${hexToRgb(colors.orange)}, 0.8),
@@ -34,7 +34,6 @@ const Calculator = () => {
   return (
     <main css={calculatorStyles} className="calculator-container">
       <Outlet />
-      <Link href="/" label="На главную" />
     </main>
   );
 };

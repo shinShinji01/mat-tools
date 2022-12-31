@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { css } from '@emotion/react';
 import { FilterMaterialUnit } from '../data/materials';
 import { KeyNum } from '../data/types';
 import { SecondaryHeader } from '../components/header';
@@ -7,21 +6,16 @@ import { filterMaterials } from '../data/materials';
 import Inputs from '../components/calculator/inputs';
 import { ZIP_MULTIPLIER } from '../data/config';
 import { Calculator } from 'phosphor-react';
-
-interface TotalMaterials {
-  [key: string]: number;
-}
-
-const outputStyles = css`
-  list-style: none;
-`;
+import Output from '../components/calculator/output';
+import { OutputResults } from '../data/types';
+import CalculatorCard from '../components/calculator/calculator-card';
 
 const totalAmountNeeded = (
   setsNeeded: number,
   zip: boolean,
   materials: FilterMaterialUnit[]
-): TotalMaterials => {
-  const totalMaterials: TotalMaterials = {};
+): KeyNum => {
+  const totalMaterials: KeyNum = {};
 
   materials.forEach((mat) => {
     const calculateAmountForSets = mat.defaultAmount * setsNeeded;
@@ -37,10 +31,10 @@ const totalAmountNeeded = (
 };
 
 const totalAndStockDifference = (
-  totalNeeded: TotalMaterials,
-  stock: TotalMaterials
-): TotalMaterials => {
-  const difference: TotalMaterials = {};
+  totalNeeded: KeyNum,
+  stock: KeyNum
+): KeyNum => {
+  const difference: KeyNum = {};
   Object.entries(totalNeeded).forEach((mat) => {
     const [id, amountNeeded] = mat;
     const amountStock = stock[id];
@@ -50,22 +44,25 @@ const totalAndStockDifference = (
   return difference;
 };
 
-const renderOutput = (output: TotalMaterials) => {
-  if (!output) return;
-  const outputNodes = filterMaterials.map((mat) => {
-    const { id, label } = mat;
-    const outputString = `${label}: ${
-      output[id] < 0 ? `0 (избыток ${Math.abs(output[id])})` : `${output[id]}`
-    }`;
+// Generate output for the Output component
+const generateOutput = (output: KeyNum) => {
+  if (!output) return {};
 
-    return <li key={id}>{outputString}</li>;
+  const outputObj: OutputResults = {};
+
+  filterMaterials.map((mat) => {
+    const { label, id } = mat;
+    outputObj[id] = {
+      label: label,
+      value: output[id],
+    };
   });
 
-  return outputNodes;
+  return outputObj;
 };
 
 const MaterialsCalculator = () => {
-  const [output, setOutput] = useState<TotalMaterials | null>(null);
+  const [output, setOutput] = useState<KeyNum | null>(null);
 
   const submitHandler = (
     e: React.FormEvent<HTMLFormElement>,
@@ -96,20 +93,22 @@ const MaterialsCalculator = () => {
   };
 
   return (
-    <>
-      <SecondaryHeader label="Калькулятор материалов">
-        <Calculator size={36} weight="fill" />
-      </SecondaryHeader>
-      {/* Description */}
-      <Inputs
-        onSubmit={submitHandler}
-        inputsData={[{ label: 'Комплекты', id: 'sets' }, ...filterMaterials]}
-      />
-
+    <div>
+      <CalculatorCard>
+        <SecondaryHeader label="Калькулятор материалов">
+          <Calculator size={36} weight="fill" />
+        </SecondaryHeader>
+        {/* Description */}
+        <Inputs
+          onSubmit={submitHandler}
+          inputsData={[{ label: 'Комплекты', id: 'sets' }, ...filterMaterials]}
+        />
+      </CalculatorCard>
       <div>
-        <ul css={outputStyles}>{output && renderOutput(output)}</ul>
+        {output && <Output results={generateOutput(output)} />}
+        {/* <ul css={outputStyles}>{output && renderOutput(output)}</ul> */}
       </div>
-    </>
+    </div>
   );
 };
 
