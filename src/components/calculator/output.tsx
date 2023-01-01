@@ -3,6 +3,7 @@ import { OutputResults } from '../../data/types';
 import { FilterMaterialUnit } from '../../data/materials';
 import { colors } from '../../styles/colors';
 import { borderRadius, shadow, space } from '../../styles/variables';
+import { hexToRgb } from '../../utils/utils';
 
 interface OutputProps {
   results: OutputResults;
@@ -11,9 +12,10 @@ interface OutputProps {
 
 const outputStyles = css`
   width: 100%;
-  padding: ${space.md};
+  padding: ${space.md} 0;
+  overflow: hidden;
   color: ${colors.grayDark};
-  border-top: 0.2rem solid ${colors.greenDark};
+  border: 0.2rem solid ${colors.greenDark};
   border-bottom-left-radius: ${borderRadius.smooth};
   border-bottom-right-radius: ${borderRadius.smooth};
   background: linear-gradient(${colors.greenDark}, ${colors.green});
@@ -23,18 +25,20 @@ const outputStyles = css`
 const tableStyles = css`
   width: 100%;
   border-collapse: collapse;
-
-  tr:nth-of-type(odd) {
-    background-color: ${colors.green};
-  }
+  font-weight: 500;
+  letter-spacing: 0.06rem;
 
   tr:nth-of-type(even) {
-    background-color: ${colors.greenLight};
+  }
+
+  tr:nth-of-type(odd) {
+    /* box-shadow: 0 0 2rem 0.3rem ${colors.greenLight}; */
+    background: rgba(${hexToRgb(colors.greenLight)}, 0.6);
   }
 
   td {
-    padding: ${space.sm};
-    width: min-content;
+    max-width: fit-content;
+    padding: ${space.sm} ${space.xxl};
   }
 `;
 

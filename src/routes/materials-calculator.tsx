@@ -37,7 +37,7 @@ const totalAndStockDifference = (
   const difference: KeyNum = {};
   Object.entries(totalNeeded).forEach((mat) => {
     const [id, amountNeeded] = mat;
-    const amountStock = stock[id];
+    const amountStock = stock[id] || 0;
     difference[id] = amountNeeded - amountStock;
   });
 
@@ -101,13 +101,13 @@ const MaterialsCalculator = () => {
         {/* Description */}
         <Inputs
           onSubmit={submitHandler}
-          inputsData={[{ label: 'Комплекты', id: 'sets' }, ...filterMaterials]}
+          inputsData={[
+            { label: 'Комплекты', id: 'sets', required: true },
+            ...filterMaterials,
+          ]}
         />
       </CalculatorCard>
-      <div>
-        {output && <Output results={generateOutput(output)} />}
-        {/* <ul css={outputStyles}>{output && renderOutput(output)}</ul> */}
-      </div>
+      <div>{output && <Output results={generateOutput(output)} />}</div>
     </div>
   );
 };

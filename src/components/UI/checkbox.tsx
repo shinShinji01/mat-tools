@@ -32,6 +32,7 @@ const pseudoCheckboxStyles = css`
 const fancyCheckBoxStyles = css`
   position: relative;
   visibility: hidden;
+  cursor: pointer;
   margin-right: ${space.md};
 
   :checked::after {

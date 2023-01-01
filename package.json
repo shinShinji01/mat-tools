@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build:watch": "webpack --watch",
     "build": "webpack",
     "start": "webpack serve"
@@ -13,6 +12,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
     "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "css-loader": "^6.7.3",

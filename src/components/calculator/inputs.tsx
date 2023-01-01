@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { css } from '@emotion/react';
-import { KeyNum } from '../../data/types';
+import { InputData, KeyNum } from '../../data/types';
 import Button from '../UI/button';
 import { LabeledCheckboxFancy } from '../UI/checkbox';
 import { InputLabeled } from '../UI/input';
@@ -13,11 +13,6 @@ import {
 } from '../../styles/variables';
 import { colors } from '../../styles/colors';
 import { PlusMinus, X } from 'phosphor-react';
-
-interface InputData {
-  label: string;
-  id: string;
-}
 
 interface InputsProps {
   onSubmit: (
@@ -52,6 +47,10 @@ const inputsStyles = css`
     ${inputsBase};
     width: 10rem;
 
+    &::placeholder {
+      color: ${colors.grayLight};
+    }
+
     &:focus {
       outline: none;
       box-shadow: ${shadow.focus};
@@ -73,19 +72,33 @@ const secondaryInputStyles = css`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding-left: ${space.sm};
-  gap: ${space.sm};
+  width: 100%;
+  gap: ${space.md};
 
   .buttons {
     display: flex;
+    width: 100%;
+    justify-content: space-between;
     gap: ${space.md};
   }
 `;
+
+// const temp: InputsState = {
+//   sets: '10',
+//   filter_s: '22',
+//   filter_l: '22',
+//   woven_mesh_s: '22',
+//   woven_mesh_l: '22',
+//   welded_mesh_s: '22',
+//   welded_mesh_l: '22',
+// };
 
 const Inputs = (props: InputsProps) => {
   const { onSubmit, inputsData } = props;
   const [values, setValues] = useState<InputsState>({});
   const [zip, setZip] = useState(true);
+
+  useEffect(() => console.log(values), [values]);
 
   const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     const updatedValues: KeyNum = {};
@@ -117,7 +130,7 @@ const Inputs = (props: InputsProps) => {
   const zipChangeHandler = () => setZip((prevState) => !prevState);
 
   const inputs = inputsData.map((input) => {
-    const { id, label } = input;
+    const { id, label, required } = input;
 
     return (
       <InputLabeled
@@ -126,8 +139,9 @@ const Inputs = (props: InputsProps) => {
         onChange={changeHandler}
         type="number"
         data-id={id}
+        placeholder="0"
         value={values[id] || ''}
-        required
+        required={required}
       />
     );
   });
@@ -144,7 +158,7 @@ const Inputs = (props: InputsProps) => {
           />
         </div>
         <div className="buttons">
-          <Button label="Считаем" type="submit">
+          <Button label="Посчитать" type="submit">
             <PlusMinus size={20} weight="bold" />
           </Button>
           <Button type="reset" onClick={resetHandler}>

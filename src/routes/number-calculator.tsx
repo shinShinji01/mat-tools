@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { KeyNum } from '../data/types';
+import { InputData, KeyNum } from '../data/types';
 import { FilterMaterialUnit } from '../data/materials';
 import { SecondaryHeader } from '../components/header';
 import Inputs from '../components/calculator/inputs';
@@ -10,15 +10,6 @@ import { ZIP_MULTIPLIER } from '../data/config';
 import { Calculator } from 'phosphor-react';
 import CalculatorCard from '../components/calculator/calculator-card';
 import Output from '../components/calculator/output';
-
-interface InputsData {
-  label: string;
-  id: string;
-}
-
-interface KeyNumObject {
-  [key: string]: number;
-}
 
 // Generate options for material type select menu
 const selectOptions = materialsTypes.map((mat) => {
@@ -33,14 +24,16 @@ const generateInputsObject = (
   materialType: string,
   materialsData: FilterMaterialUnit[]
 ) => {
-  const inputsData = [
+  const inputsData: InputData[] = [
     {
       label: 'Закрыто (№) до начала работы',
       id: 'initial_number',
+      required: true,
     },
   ];
   const materials = getDefaultMaterialData(materialType, materialsData);
   materials.forEach((mat) => inputsData.push({ label: mat.label, id: mat.id }));
+  console.log(inputsData);
   return inputsData;
 };
 
@@ -75,7 +68,7 @@ const generateOutput = (output: number) => {
 
 const NumberCalculator = () => {
   const [matType, setMatType] = useState(materialsTypes[0].id);
-  const [inputsData, setInputsData] = useState<InputsData[]>([]);
+  const [inputsData, setInputsData] = useState<InputData[]>([]);
   const [output, setOutput] = useState<number | null>(null);
 
   useEffect(
@@ -108,18 +101,22 @@ const NumberCalculator = () => {
     const defaultUnitsData = getDefaultMaterialData(matType, filterMaterials);
 
     // Areas of selected units (single)
-    const areas: KeyNumObject = {};
+    const areas: KeyNum = {};
     defaultUnitsData.forEach((mat) => {
       areas[mat.id] = calculateUnitArea(mat);
     });
 
     // Area covered by stock
     let areaCoveredByStock = 0;
-    for (const mat in areas) areaCoveredByStock += areas[mat] * data[mat];
+    for (const mat in areas) {
+      const areaCoveredByMat = areas[mat];
+      const stockAmount = data[mat] || 0;
+      areaCoveredByStock += areaCoveredByMat * stockAmount;
+    }
 
     // Area covered by single set
     let areaCoveredBySet = 0;
-    const defaultAmounts: KeyNumObject = {};
+    const defaultAmounts: KeyNum = {};
     defaultUnitsData.forEach((mat) => {
       if (!mat.zip) defaultAmounts[mat.id] = mat.defaultAmount;
       if (mat.zip)
@@ -152,9 +149,6 @@ const NumberCalculator = () => {
         </Label>
         <Inputs onSubmit={submitHandler} inputsData={inputsData} />
       </CalculatorCard>
-      {/* <div>
-        <ul>{output && renderOutput(output)}</ul>
-      </div> */}
       {output && <Output results={generateOutput(output)} />}
     </div>
   );
